@@ -5,7 +5,8 @@ const resolvers = {
 
     Query: {
 
-        me: async ({ parent, args, context }) => {
+        me: async ( parent, args, context ) => {
+        
             if (context.user) {
                 return await User.findOne({ _id: context.user._id })
             }
@@ -33,35 +34,33 @@ const resolvers = {
             return { token, user };
         },
 
-        addUser: async (parent, { username, email, password }) => {
-            console.log("hello")
-            const user = await User.create({ username, email, password });
+        addUser: async (parent, {username, email, password}) => {
+            const user = await User.create({username, email, password});
             const token = signToken(user);
             return { token, user };
         },
 
 
-        saveBook: async (parent, { savedBooks }, context) => {
+        savedBooks: async (parent, { bookData }, context) => {
+       
             if (context.user) {
-                return User.findOneAndUpdate(
+              const user = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    {
-                        $push: {
-                            savedBooks: { savedBooksInput },
-                        },
-                    },
+                    { $push: {savedBooks:  bookData }}, 
                     { new: true }
                 );
-
+                    return user
             }
             throw AuthenticationError;
+
         },
 
         removeBook: async (parent, { bookId }, context) => {
+            
             if (context.user) {
-                const user = await User.findOneAndDelete(
-                    { _id: context.user.id },
-                    { $pull: { savedBooks: bookId } },
+                const user = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $pull: { savedBooks: {bookId} } },
                     { new: true }
                 )
                 return user
@@ -75,3 +74,4 @@ const resolvers = {
 }
 
 
+module.exports = resolvers;

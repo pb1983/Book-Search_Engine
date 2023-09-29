@@ -5,18 +5,8 @@ export const ADD_USER = gql`
   addUser(username: $username, email: $email, password: $password) {
     token
     user {
-      username
       email
       _id
-      bookCount
-      savedBooks {
-        bookId
-        authors
-        title
-        description
-        image
-        link
-      }
     }
   }
 }
