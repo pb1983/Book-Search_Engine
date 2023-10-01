@@ -18,8 +18,8 @@ import { REMOVE_BOOK } from '../utils/mutations';
 const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   const userData = data?.me || {};
-
-  const [removeBook, { error }] = useMutation(REMOVE_BOOK);
+  
+  const [removeBook, {error}] = useMutation(REMOVE_BOOK);
 
 
   // use this to determine if `useEffect()` hook needs to run again
@@ -51,7 +51,7 @@ const SavedBooks = () => {
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
+      <div fluid="true" className="text-light bg-dark p-5">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>

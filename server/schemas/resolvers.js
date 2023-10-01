@@ -8,7 +8,7 @@ const resolvers = {
         me: async ( parent, args, context ) => {
         
             if (context.user) {
-                return await User.findOne({ _id: context.user._id })
+                return User.findOne({ _id: context.user._id })
             }
             throw AuthenticationError;
         },
@@ -41,15 +41,15 @@ const resolvers = {
         },
 
 
-        savedBooks: async (parent, { bookData }, context) => {
+        savedBooks: async (parent, { input }, context) => {
        
             if (context.user) {
-              const user = await User.findOneAndUpdate(
+              return User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $push: {savedBooks:  bookData }}, 
+                    { $push: {savedBooks:  input }}, 
                     { new: true }
                 );
-                    return user
+                    
             }
             throw AuthenticationError;
 
